@@ -1,11 +1,10 @@
 from .POOL_class import SingletonDBPool
 from uuid import uuid4
 import time
-
+pool = SingletonDBPool()
 
 def add_one_mysql_pool_class():
 
-    pool = SingletonDBPool()
     conn = pool.connect()
     cursor = conn.cursor()
     inser_sql = 'insert into banchtest_pymysql (message_id, parameters, create_time) values (%s, %s, %s)'
