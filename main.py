@@ -47,11 +47,8 @@ def mysql_get():
     return {'code': 200}
 
 
-@app.route('/mysql/sqlalchemy', methods=['POST'])
+@app.route('/mysql/sqlalchemy', methods=['GET'])
 def sqlalchemy_add_one():
-
-    data = request.json
-    logger.debug(f"new message to send:{data}")
 
     one = dbModel()
     result = one.save_to_db()
@@ -63,7 +60,7 @@ def sqlalchemy_add_one():
     }
 
 
-@app.route('/mysql/pymysql', methods=['POST'])
+@app.route('/mysql/pymysql', methods=['GET'])
 def pymysql_add_one():
 
     result = add_one()
@@ -94,5 +91,5 @@ def response_put():
 
 
 if __name__ == "__main__":
-    app.run(port=5666, use_reloader=False)
+    app.run(host='0.0.0.0', port=5678, use_reloader=False)
 

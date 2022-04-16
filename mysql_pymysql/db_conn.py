@@ -3,7 +3,7 @@ import pymysql
 
 
 db_conn = pymysql.connect(
-    host='127.0.0.1',
+    host='47.100.138.122',
     port=33006,
     user='message_center',
     passwd='a9U911VU2Ggz',
