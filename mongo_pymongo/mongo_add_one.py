@@ -10,4 +10,6 @@ def add_one_mongo():
         "create_time": time.time()
     }
 
-    return db.event.insert_one(json.dumps(contents))
+    resp = db.event.insert_one(contents)
+    print(resp)
+    return True

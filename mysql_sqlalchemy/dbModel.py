@@ -10,13 +10,13 @@ class dbModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     message_id = db.Column(db.String(32), index=True)
     parameters = db.Column(db.String(1000))
-    create_time = db.Column(db.DATETIME())
+    create_time = db.Column(db.String(1000))
 
     def __init__(self):
         # required fields
         self.message_id = uuid4().hex
         self.parameters = uuid4().hex
-        self.create_time = datetime.now()
+        self.create_time = str(time.time())
 
     def json(self):
         return {
