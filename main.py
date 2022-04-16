@@ -31,7 +31,7 @@ logger.addHandler(ch)
 app = Flask(__name__)
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://message_center:a9U911VU2Ggz@47.100.138.122:33006/message_center"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://message_center:a9U911VU2Ggz@127.0.0.1:33006/message_center"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.url_map.strict_slashes = False
 
