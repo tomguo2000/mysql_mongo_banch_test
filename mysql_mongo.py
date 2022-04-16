@@ -4,9 +4,10 @@ from logging.handlers import SMTPHandler
 import json
 import pymysql
 from mysql_sqlalchemy.dbModel import dbModel
+from mysql_pymysql.db_conn import db_conn
 from mysql_pymysql.db_add_one import add_one
 
-
+db_cur = db_conn.cursor()
 pymysql.install_as_MySQLdb()
 
 
@@ -63,7 +64,7 @@ def sqlalchemy_add_one():
 @app.route('/mysql/pymysql', methods=['GET'])
 def pymysql_add_one():
 
-    result = add_one()
+    result = add_one(db_cur)
     logger.info("pymysql add one")
 
     return {
