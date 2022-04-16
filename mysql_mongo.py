@@ -6,6 +6,7 @@ import pymysql
 from mysql_sqlalchemy.dbModel import dbModel
 from mysql_pymysql.db_conn import db_conn
 from mysql_pymysql.db_add_one import add_one
+from mongo_pymongo.mongo_add_one import add_one_mongo
 
 db_cur = db_conn.cursor()
 pymysql.install_as_MySQLdb()
@@ -72,6 +73,20 @@ def pymysql_add_one():
         'message': 'add one to sqlalchemy mysql',
         'businessObj': result
     }
+
+
+@app.route('/mongo', methods=['GET'])
+def mongo_add_one():
+
+    result = add_one_mongo()
+    logger.info("pymysql add one")
+
+    return {
+        'code': 200,
+        'message': 'add one to mongo',
+        'businessObj': result
+    }
+
 
 @app.route('/webhook',  methods=['POST'])
 def webhook():
