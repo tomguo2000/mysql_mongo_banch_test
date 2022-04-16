@@ -78,7 +78,7 @@ def pymysql_add_one():
     }
 
 @app.route('/mysql/pymysql/count', methods=['GET'])
-def pymysql_add_one():
+def pymysql_count():
     aa = DBConnection()
     aa.get_count()
     # if result:
