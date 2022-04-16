@@ -1,5 +1,4 @@
 import time
-from datetime import datetime
 from .db import db
 from uuid import UUID, uuid4
 
@@ -29,6 +28,8 @@ class dbModel(db.Model):
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
+        print("id(db): ", id(db))
+        print("id(db.session)", id(db.session))
         return self.message_id
 
     def delete_from_db(self):

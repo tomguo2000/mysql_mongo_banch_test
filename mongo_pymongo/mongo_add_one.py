@@ -11,5 +11,4 @@ def add_one_mongo():
     }
 
     resp = db.event.insert_one(contents)
-    print(resp)
     return True

@@ -4,13 +4,13 @@ from logging.handlers import SMTPHandler
 import json
 import pymysql
 from mysql_sqlalchemy.dbModel import dbModel
-from mysql_pymysql.db_conn import db_conn
+from mysql_pymysql.db_conn import db_conn_pymysql
 from mysql_pymysql.db_add_one import add_one
 from mongo_pymongo.mongo_add_one import add_one_mongo
 
-db_cur = db_conn.cursor()
-pymysql.install_as_MySQLdb()
 
+pymysql.install_as_MySQLdb()
+db_cur = db_conn_pymysql.cursor()
 
 
 logger = logging.getLogger()
@@ -66,7 +66,10 @@ def sqlalchemy_add_one():
 def pymysql_add_one():
 
     result = add_one(db_cur)
-    logger.info("pymysql add one")
+    if result:
+        logger.info(f"pymysql add one success, at {id(db_conn_pymysql)}, {db_cur}")
+    else:
+        logger.info(f"pymysql add one error, at {id(db_conn_pymysql)}, {db_cur}")
 
     return {
         'code': 200,
