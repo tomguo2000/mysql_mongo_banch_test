@@ -4,11 +4,10 @@ from logging.handlers import SMTPHandler
 import json
 import pymysql
 from mysql_sqlalchemy.dbModel import dbModel
-from mysql_pymysql.db_conn import db_conn_pymysql
-from mysql_pymysql.db_add_one import add_one
 from mongo_pymongo.mongo_add_one import add_one_mongo
-from mysql_pymysql.pool import DBConnection
-
+from mysql_pymysql.singletone_1 import POOL
+from uuid import uuid4
+import time
 
 pymysql.install_as_MySQLdb()
 
@@ -64,12 +63,13 @@ def sqlalchemy_add_one():
 
 @app.route('/mysql/pymysql', methods=['GET'])
 def pymysql_add_one():
-    aa = DBConnection()
-    aa.insert_one()
-    # if result:
-    #     logger.info(f"pymysql add one success, at {id(db_conn_pymysql)}, {db_cur}")
-    # else:
-    #     logger.info(f"pymysql add one error, at {id(db_conn_pymysql)}, {db_cur}")
+
+    conn = POOL.connection()
+    cursor = conn.cursor()
+    inser_sql = 'insert into banchtest_pymysql (message_id, parameters, create_time) values (%s, %s, %s)'
+    values = (uuid4().hex, uuid4().hex, str(time.time()))
+    cursor.execute(inser_sql, values)
+    conn.commit()
 
     return {
         'code': 200,
@@ -79,17 +79,17 @@ def pymysql_add_one():
 
 @app.route('/mysql/pymysql/count', methods=['GET'])
 def pymysql_count():
-    aa = DBConnection()
-    aa.get_count()
-    # if result:
-    #     logger.info(f"pymysql add one success, at {id(db_conn_pymysql)}, {db_cur}")
-    # else:
-    #     logger.info(f"pymysql add one error, at {id(db_conn_pymysql)}, {db_cur}")
+    conn = POOL.connection()
+    cursor = conn.cursor()
+
+    sql='select * from banchtest_pymysql'
+    resp = cursor.execute(sql)
+    print(resp)
 
     return {
         'code': 200,
         'message': 'count all records',
-        'businessObj': aa.get_count()
+        'businessObj': resp
     }
 
 

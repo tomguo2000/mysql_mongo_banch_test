@@ -12,6 +12,7 @@ class Con_db(object):
         return cls.__instance
 
     def __init__(self):
+        # self.db_host = '47.100.138.122'
         self.db_host = '127.0.0.1'
         self.db_port = 33006
         self.db_user = 'message_center'
@@ -47,5 +48,6 @@ class DBConnection(Con_db):
 if __name__ == '__main__':
     a1=DBConnection()
     print(a1.get_count())
-    print(a1.insert_one())
+    for x in range(100):
+        a1.insert_one()
     print(a1.get_count())
