@@ -2,6 +2,7 @@ import time
 import pymysql
 import threading
 from dbutils.pooled_db import PooledDB, SharedDBConnection
+from config import MYSQL_URI
 POOL = PooledDB(
     creator=pymysql,
     maxconnections=10,
@@ -12,8 +13,7 @@ POOL = PooledDB(
     maxusage=None,
     setsession=[],
     ping=0,
-    # host='47.100.138.122',
-    host='127.0.0.1',
+    host=MYSQL_URI,
     port=33006,
     user='message_center',
     password='a9U911VU2Ggz',

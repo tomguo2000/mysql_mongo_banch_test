@@ -1,13 +1,13 @@
 from flask import Flask, request
 import logging
 from logging.handlers import SMTPHandler
-import json
 import pymysql
 from mysql_sqlalchemy.dbModel import dbModel
 from mongo_pymongo.mongo_add_one import add_one_mongo
-from mysql_pymysql.POOL_2 import SingletonDBPool
-from uuid import uuid4
-import time
+from mysql_pymysql.pymysql_pool_class_opt import add_one_mysql_pool_class
+from mysql_pymysql.pymysql_pool_file_opt import add_one_mysql_pool_file, count_all
+
+from config import MYSQL_URI
 
 pymysql.install_as_MySQLdb()
 
@@ -32,7 +32,7 @@ logger.addHandler(ch)
 app = Flask(__name__)
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://message_center:a9U911VU2Ggz@127.0.0.1:33006/message_center"
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://message_center:a9U911VU2Ggz@{MYSQL_URI}:33006/message_center"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.url_map.strict_slashes = False
 
@@ -61,15 +61,9 @@ def sqlalchemy_add_one():
     }
 
 
-@app.route('/mysql/pymysql', methods=['GET'])
-def pymysql_add_one():
-    pool = SingletonDBPool()
-    conn = pool.connect()
-    cursor = conn.cursor()
-    inser_sql = 'insert into banchtest_pymysql (message_id, parameters, create_time) values (%s, %s, %s)'
-    values = (uuid4().hex, uuid4().hex, str(time.time()))
-    cursor.execute(inser_sql, values)
-    conn.commit()
+@app.route('/mysql/pymysql/file', methods=['GET'])
+def pymysql_file_add_one():
+    add_one_mysql_pool_file()
 
     return {
         'code': 200,
@@ -77,22 +71,27 @@ def pymysql_add_one():
         'businessObj': None
     }
 
+
+
+@app.route('/mysql/pymysql/class', methods=['GET'])
+def pymysql_class_add_one():
+    add_one_mysql_pool_class()
+
+    return {
+        'code': 200,
+        'message': 'add one to sqlalchemy mysql',
+        'businessObj': None
+    }
+
+
+
 @app.route('/mysql/pymysql/count', methods=['GET'])
 def pymysql_count():
-    pool = SingletonDBPool()
-    conn = pool.connect()
-    cursor = conn.cursor()
-
-    sql='select count(*) from banchtest_pymysql'
-    cursor.execute(sql)
-    resp = cursor.fetchall()
-    print(resp)
-    print(type(resp))
 
     return {
         'code': 200,
         'message': 'count all records',
-        'businessObj': resp
+        'businessObj': count_all()
     }
 
 

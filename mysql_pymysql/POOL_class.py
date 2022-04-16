@@ -1,7 +1,7 @@
 import pymysql
 import threading
 from dbutils.pooled_db import PooledDB
-
+from config import MYSQL_URI
 
 class SingletonDBPool(object):
     _instance_lock = threading.Lock()
@@ -17,8 +17,7 @@ class SingletonDBPool(object):
             maxusage=None,
             setsession=[],
             ping=0,
-            # host='47.100.138.122',
-            host='127.0.0.1',
+            host=MYSQL_URI,
             port=33006,
             user='message_center',
             password='a9U911VU2Ggz',
