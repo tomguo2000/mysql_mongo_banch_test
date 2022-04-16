@@ -12,8 +12,8 @@ class Con_db(object):
         return cls.__instance
 
     def __init__(self):
-        # self.db_host = '47.100.138.122'
-        self.db_host = '127.0.0.1'
+        self.db_host = '47.100.138.122'
+        # self.db_host = '127.0.0.1'
         self.db_port = 33006
         self.db_user = 'message_center'
         self.db_password = 'a9U911VU2Ggz'

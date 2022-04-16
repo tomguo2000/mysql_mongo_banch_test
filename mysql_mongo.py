@@ -5,7 +5,7 @@ import json
 import pymysql
 from mysql_sqlalchemy.dbModel import dbModel
 from mongo_pymongo.mongo_add_one import add_one_mongo
-from mysql_pymysql.singletone_1 import POOL
+from mysql_pymysql.POOL_2 import SingletonDBPool
 from uuid import uuid4
 import time
 
@@ -63,8 +63,8 @@ def sqlalchemy_add_one():
 
 @app.route('/mysql/pymysql', methods=['GET'])
 def pymysql_add_one():
-
-    conn = POOL.connection()
+    pool = SingletonDBPool()
+    conn = pool.connect()
     cursor = conn.cursor()
     inser_sql = 'insert into banchtest_pymysql (message_id, parameters, create_time) values (%s, %s, %s)'
     values = (uuid4().hex, uuid4().hex, str(time.time()))
@@ -79,12 +79,15 @@ def pymysql_add_one():
 
 @app.route('/mysql/pymysql/count', methods=['GET'])
 def pymysql_count():
-    conn = POOL.connection()
+    pool = SingletonDBPool()
+    conn = pool.connect()
     cursor = conn.cursor()
 
-    sql='select * from banchtest_pymysql'
-    resp = cursor.execute(sql)
+    sql='select count(*) from banchtest_pymysql'
+    cursor.execute(sql)
+    resp = cursor.fetchall()
     print(resp)
+    print(type(resp))
 
     return {
         'code': 200,
