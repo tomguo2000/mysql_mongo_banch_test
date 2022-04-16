@@ -7,10 +7,10 @@ from mysql_sqlalchemy.dbModel import dbModel
 from mysql_pymysql.db_conn import db_conn_pymysql
 from mysql_pymysql.db_add_one import add_one
 from mongo_pymongo.mongo_add_one import add_one_mongo
+from mysql_pymysql.pool import DBConnection
 
 
 pymysql.install_as_MySQLdb()
-db_cur = db_conn_pymysql.cursor()
 
 
 logger = logging.getLogger()
@@ -54,7 +54,7 @@ def sqlalchemy_add_one():
 
     one = dbModel()
     result = one.save_to_db()
-
+    logger.info(result)
     return {
         'code': 200,
         'message': 'add one to sqlalchemy mysql',
@@ -64,17 +64,32 @@ def sqlalchemy_add_one():
 
 @app.route('/mysql/pymysql', methods=['GET'])
 def pymysql_add_one():
-
-    result = add_one(db_cur)
-    if result:
-        logger.info(f"pymysql add one success, at {id(db_conn_pymysql)}, {db_cur}")
-    else:
-        logger.info(f"pymysql add one error, at {id(db_conn_pymysql)}, {db_cur}")
+    aa = DBConnection()
+    aa.insert_one()
+    # if result:
+    #     logger.info(f"pymysql add one success, at {id(db_conn_pymysql)}, {db_cur}")
+    # else:
+    #     logger.info(f"pymysql add one error, at {id(db_conn_pymysql)}, {db_cur}")
 
     return {
         'code': 200,
         'message': 'add one to sqlalchemy mysql',
-        'businessObj': result
+        'businessObj': None
+    }
+
+@app.route('/mysql/pymysql/count', methods=['GET'])
+def pymysql_add_one():
+    aa = DBConnection()
+    aa.get_count()
+    # if result:
+    #     logger.info(f"pymysql add one success, at {id(db_conn_pymysql)}, {db_cur}")
+    # else:
+    #     logger.info(f"pymysql add one error, at {id(db_conn_pymysql)}, {db_cur}")
+
+    return {
+        'code': 200,
+        'message': 'count all records',
+        'businessObj': aa.get_count()
     }
 
 

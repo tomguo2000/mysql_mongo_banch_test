@@ -26,11 +26,13 @@ class dbModel(db.Model):
         }
 
     def save_to_db(self):
-        db.session.add(self)
-        db.session.commit()
-        print("id(db): ", id(db))
-        print("id(db.session)", id(db.session))
-        return self.message_id
+        try:
+            db.session.add(self)
+            db.session.commit()
+            resp = 'sqlalchemy add one success At' + str(id(db)) + '    ' + str(id(db.session))
+        except:
+            resp = 'sqlalchemy add one error At' + str(id(db)) + '    ' + str(id(db.session))
+        return resp
 
     def delete_from_db(self):
         db.session.delete(self)
