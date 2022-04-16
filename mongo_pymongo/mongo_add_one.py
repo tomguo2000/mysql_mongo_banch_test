@@ -1,6 +1,6 @@
 import datetime
-
-from dbconfig import db
+import json
+from .dbconfig import db
 from uuid import uuid4
 
 def add_one_mongo():
@@ -10,4 +10,4 @@ def add_one_mongo():
         "create_time": datetime.datetime.now()
     }
 
-    return db.event.insert_one(contents)
+    return db.event.insert_one(json.loads(contents))
