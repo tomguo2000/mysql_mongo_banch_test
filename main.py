@@ -66,13 +66,13 @@ def sqlalchemy_add_one():
 @app.route('/mysql/pymysql', methods=['POST'])
 def pymysql_add_one():
 
-    add_one()
+    result = add_one()
     logger.info("pymysql add one")
 
     return {
         'code': 200,
-        'message': 'add one to pymysql mysql'
-        # 'businessObj': result
+        'message': 'add one to sqlalchemy mysql',
+        'businessObj': result
     }
 
 @app.route('/webhook',  methods=['POST'])

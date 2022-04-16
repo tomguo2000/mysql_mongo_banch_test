@@ -12,4 +12,4 @@ def add_one():
 
     db_conn.commit()
     db_cur.close()
-    return
+    return None
