@@ -54,6 +54,9 @@ def get_one_movie(id: str):
 
 
 def add_movie():
-    body = request.get_json()
+    body={
+        "title": uuid4().hex
+    }
+    # body = request.get_json()
     movie = Movie(**body).save()
     return jsonify(movie), 201
