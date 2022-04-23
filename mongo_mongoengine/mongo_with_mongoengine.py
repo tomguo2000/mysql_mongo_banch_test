@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from mongo_me import db_me
+from .mongo_me import db_me
 from uuid import uuid4
 import time
 
