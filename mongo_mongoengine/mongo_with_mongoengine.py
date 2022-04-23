@@ -59,4 +59,4 @@ def add_movie():
     }
     # body = request.get_json()
     movie = Movie(**body).save()
-    return jsonify(movie), 201
+    return jsonify(movie)

@@ -126,6 +126,7 @@ def mongo_add_one():
 def mongo_add_one_me():
 
     result = add_movie()
+    print(result)
     logger.info("mongo_engine add one")
 
     return {
