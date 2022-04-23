@@ -6,6 +6,8 @@ from mysql_sqlalchemy.dbModel import dbModel
 from mongo_pymongo.mongo_add_one import add_one_mongo
 from mysql_pymysql.pymysql_pool_class_opt import add_one_mysql_pool_class
 from mysql_pymysql.pymysql_pool_file_opt import add_one_mysql_pool_file, count_all
+from mongo_mongoengine.mongo_with_mongoengine import add_movie
+
 
 from config import MYSQL_URI
 
@@ -36,9 +38,21 @@ app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://message_center:a9U911VU2Ggz@{M
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.url_map.strict_slashes = False
 
+app.config['MONGODB_SETTINGS'] = {
+    'db': 'mongo_banchmark',
+    'host': MYSQL_URI,
+    'port': 27017,
+    # 'username': 'admin',
+    # 'password': '123456',
+    # 'authentication_source': 'admin'
+}
+
 
 from mysql_sqlalchemy.db import db
 db.init_app(app)
+
+from mongo_mongoengine.mongo_me import db_me
+db_me.init_app(app)
 
 
 @app.route('/mysql',  methods=['GET'])
@@ -106,6 +120,32 @@ def mongo_add_one():
         'message': 'add one to mongo',
         'businessObj': result
     }
+
+
+@app.route('/mongo/me', methods=['GET'])
+def mongo_add_one_me():
+
+    result = add_movie()
+    logger.info("mongo_engine add one")
+
+    return {
+        'code': 200,
+        'message': 'add one to mongo by using mongo_engine',
+        'businessObj': result
+    }
+
+#
+# @app.route('/mongo/total', methods=['GET'])
+# def mongo_total():
+#
+#     result = add_one_mongo()
+#     logger.info("pymysql add one")
+#
+#     return {
+#         'code': 200,
+#         'message': 'add one to mongo',
+#         'businessObj': result
+#     }
 
 
 @app.route('/webhook',  methods=['POST'])
