@@ -8,7 +8,8 @@ from mysql_pymysql.pymysql_pool_class_opt import add_one_mysql_pool_class
 from mysql_pymysql.pymysql_pool_file_opt import add_one_mysql_pool_file, count_all
 from mongo_mongoengine.mongo_with_mongoengine import add_movie
 from postgre.postgre_addone import add_one_postgre, get_total_postgre
-
+from uuid import uuid4
+import time
 
 from config import MYSQL_URI
 
@@ -55,6 +56,18 @@ db.init_app(app)
 from mongo_mongoengine.mongo_me import db_me
 db_me.init_app(app)
 
+
+
+@app.route('/file/add', methods=['GET'])
+def file_add_one():
+    values = (uuid4().hex, uuid4().hex, str(time.time()))
+    logger.info(f"file add one:{values}")
+
+    return {
+        'code': 200,
+        'message': 'add one to postgre',
+        'businessObj': None
+    }
 
 
 @app.route('/postgre/add', methods=['GET'])
