@@ -7,6 +7,7 @@ from mongo_pymongo.mongo_add_one import add_one_mongo
 from mysql_pymysql.pymysql_pool_class_opt import add_one_mysql_pool_class
 from mysql_pymysql.pymysql_pool_file_opt import add_one_mysql_pool_file, count_all
 from mongo_mongoengine.mongo_with_mongoengine import add_movie
+from postgre.postgre_addone import add_one_postgre, get_total_postgre
 
 
 from config import MYSQL_URI
@@ -53,6 +54,30 @@ db.init_app(app)
 
 from mongo_mongoengine.mongo_me import db_me
 db_me.init_app(app)
+
+
+
+@app.route('/postgre/add', methods=['GET'])
+def postgre_add_one():
+    add_one_postgre()
+
+    return {
+        'code': 200,
+        'message': 'add one to postgre',
+        'businessObj': None
+    }
+
+
+@app.route('/postgre/total', methods=['GET'])
+def postgre_add_one():
+    a = get_total_postgre()
+    print(a)
+
+    return {
+        'code': 200,
+        'message': 'get total',
+        'businessObj': a
+    }
 
 
 @app.route('/mysql',  methods=['GET'])
