@@ -1,6 +1,6 @@
 import time
 import json
-from dbconfig import connection, cur
+from .dbconfig import connection, cur
 from uuid import uuid4
 
 def add_one_postgre():

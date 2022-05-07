@@ -69,7 +69,7 @@ def postgre_add_one():
 
 
 @app.route('/postgre/total', methods=['GET'])
-def postgre_add_one():
+def postgre_get_total():
     a = get_total_postgre()
     print(a)
 
